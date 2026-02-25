@@ -1,0 +1,26 @@
+# Helper Task Service - Docker Compose
+# Connects to same PostgreSQL and Redis as Auth Service
+
+version: '3.8'
+
+services:
+  task-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: helper-task-service
+    restart: unless-stopped
+    ports:
+      - "8082:8082"
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      DB_HOST: ${DB_HOST:-localhost}
+      DB_PORT: ${DB_PORT:-5432}
+      DB_NAME: ${DB_NAME:-helperdb}
+      DB_USERNAME: ${DB_USERNAME:-helper_admin}
+      DB_PASSWORD: ${DB_PASSWORD:-helper_secret_2026}
+      REDIS_HOST: ${REDIS_HOST:-localhost}
+      REDIS_PORT: ${REDIS_PORT:-6379}
+      APP_JWT_SECRET: ${APP_JWT_SECRET:-YOUR_JWT_SECRET_KEY_CHANGE_THIS_IN_PRODUCTION_MIN_256_BITS_LONG_ENOUGH}
+    # Note: This service shares the same DB and Redis with auth-service
+    # Use the main docker-compose.yml from the auth service to start PostgreSQL and Redis
