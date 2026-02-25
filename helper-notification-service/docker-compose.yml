@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  notification-service:
+    build: .
+    container_name: helper-notification-service
+    restart: unless-stopped
+    ports:
+      - "8086:8086"
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      DB_HOST: ${DB_HOST:-localhost}
+      DB_PORT: ${DB_PORT:-5432}
+      DB_NAME: ${DB_NAME:-helperdb}
+      DB_USERNAME: ${DB_USERNAME:-helper_admin}
+      DB_PASSWORD: ${DB_PASSWORD:-helper_secret_2026}
+      REDIS_HOST: ${REDIS_HOST:-localhost}
+      REDIS_PORT: ${REDIS_PORT:-6379}
+      APP_JWT_SECRET: ${APP_JWT_SECRET:-YOUR_JWT_SECRET_KEY_CHANGE_THIS_IN_PRODUCTION_MIN_256_BITS_LONG_ENOUGH}
+      MAIL_HOST: ${MAIL_HOST:-smtp.gmail.com}
+      MAIL_PORT: ${MAIL_PORT:-587}
+      MAIL_USERNAME: ${MAIL_USERNAME:-noreply@helper.app}
+      MAIL_PASSWORD: ${MAIL_PASSWORD:-}
+      SMS_API_KEY: ${SMS_API_KEY:-}
