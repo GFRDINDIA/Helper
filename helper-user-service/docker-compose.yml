@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  user-service:
+    build: .
+    container_name: helper-user-service
+    restart: unless-stopped
+    ports:
+      - "8083:8083"
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      DB_HOST: ${DB_HOST:-localhost}
+      DB_PORT: ${DB_PORT:-5432}
+      DB_NAME: ${DB_NAME:-helperdb}
+      DB_USERNAME: ${DB_USERNAME:-helper_admin}
+      DB_PASSWORD: ${DB_PASSWORD:-helper_secret_2026}
+      REDIS_HOST: ${REDIS_HOST:-localhost}
+      REDIS_PORT: ${REDIS_PORT:-6379}
+      APP_JWT_SECRET: ${APP_JWT_SECRET:-YOUR_JWT_SECRET_KEY_CHANGE_THIS_IN_PRODUCTION_MIN_256_BITS_LONG_ENOUGH}
+    # Shares DB and Redis with auth-service and task-service

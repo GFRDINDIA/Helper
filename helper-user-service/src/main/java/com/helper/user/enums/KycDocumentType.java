@@ -1,0 +1,6 @@
+package com.helper.user.enums;
+
+public enum KycDocumentType {
+    AADHAAR_CARD, PAN_CARD, SELFIE, PROFESSIONAL_LICENSE,
+    EDUCATIONAL_CERTIFICATE, REGULATORY_LICENSE, OTHER
+}

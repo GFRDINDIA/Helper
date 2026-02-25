@@ -1,0 +1,5 @@
+package com.helper.user.enums;
+
+public enum KycStatus {
+    NOT_SUBMITTED, SUBMITTED, UNDER_REVIEW, APPROVED, REJECTED, RESUBMISSION_REQUIRED, EXPIRED
+}
