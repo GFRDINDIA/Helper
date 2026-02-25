@@ -1,0 +1,263 @@
+# =============================================================================
+# Helper Platform — Root Docker Compose
+# Starts all 6 microservices + PostgreSQL (PostGIS) + Redis
+# =============================================================================
+#
+# Quick start:
+#   cp .env.example .env          # configure your secrets
+#   docker-compose up -d          # build & start everything
+#   docker-compose logs -f        # tail all logs
+#   docker-compose ps             # check health status
+#
+# Start only infrastructure (DB + Redis):
+#   docker-compose up -d postgres redis
+#
+# Rebuild a single service after code change:
+#   docker-compose up -d --build auth-service
+#
+# Stop everything and remove volumes (full reset):
+#   docker-compose down -v
+#
+# Service URLs (once running):
+#   Auth Service       → http://localhost:8081/swagger-ui.html
+#   Task Service       → http://localhost:8082/swagger-ui.html
+#   User Service       → http://localhost:8083/swagger-ui.html
+#   Payment Service    → http://localhost:8084/swagger-ui.html
+#   Rating Service     → http://localhost:8085/swagger-ui.html
+#   Notification Svc   → http://localhost:8086/swagger-ui.html
+#   PostgreSQL         → localhost:5432  (DB: helperdb)
+#   Redis              → localhost:6379
+# =============================================================================
+
+version: '3.8'
+
+# ---------------------------------------------------------------------------
+# Shared environment — injected into every app service via YAML anchor
+# ---------------------------------------------------------------------------
+x-common-db-env: &common-db-env
+  DB_HOST: postgres
+  DB_PORT: 5432
+  DB_NAME: helperdb
+  DB_USERNAME: ${DB_USERNAME:-helper_admin}
+  DB_PASSWORD: ${DB_PASSWORD:-helper_secret_2026}
+
+x-common-redis-env: &common-redis-env
+  REDIS_HOST: redis
+  REDIS_PORT: 6379
+  REDIS_PASSWORD: ${REDIS_PASSWORD:-}
+
+x-common-jwt-env: &common-jwt-env
+  # APP_JWT_SECRET maps to app.jwt.secret via Spring Boot relaxed binding.
+  # ALL services must share the same secret so JWT tokens are cross-validated.
+  APP_JWT_SECRET: ${JWT_SECRET:-HelperPlatformDevSecretKey2026ChangeThisInProduction_AABBCC1234567890}
+
+x-common-spring-env: &common-spring-env
+  SPRING_PROFILES_ACTIVE: prod
+
+x-service-depends: &service-depends
+  depends_on:
+    postgres:
+      condition: service_healthy
+    redis:
+      condition: service_healthy
+
+x-healthcheck-defaults: &healthcheck-defaults
+  interval: 30s
+  timeout: 10s
+  retries: 5
+  start_period: 90s  # Java apps need time to start
+
+# ---------------------------------------------------------------------------
+services:
+
+  # ===========================================================================
+  # INFRASTRUCTURE
+  # ===========================================================================
+
+  postgres:
+    image: postgis/postgis:15-3.4-alpine   # PostGIS included (required by task & user services)
+    container_name: helper-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: helperdb
+      POSTGRES_USER: ${DB_USERNAME:-helper_admin}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-helper_secret_2026}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      # Runs once on first container start — creates extensions & enum types
+      - ./helper-auth-service/init-db.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-helper_admin} -d helperdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  redis:
+    image: redis:7-alpine
+    container_name: helper-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+
+  # ===========================================================================
+  # MICROSERVICES
+  # ===========================================================================
+
+  # ---------------------------------------------------------------------------
+  # Auth Service — port 8081
+  # Handles: registration, login, OTP verification, JWT issuance, RBAC
+  # ---------------------------------------------------------------------------
+  auth-service:
+    build:
+      context: ./helper-auth-service
+      dockerfile: Dockerfile
+    container_name: helper-auth-service
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+    environment:
+      <<: [*common-spring-env, *common-db-env, *common-redis-env, *common-jwt-env]
+      MAIL_USERNAME: ${MAIL_USERNAME:-noreply@helper.app}
+      MAIL_PASSWORD: ${MAIL_PASSWORD:-}
+    <<: *service-depends
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8081/actuator/health | grep -q UP || exit 1"]
+      <<: *healthcheck-defaults
+
+  # ---------------------------------------------------------------------------
+  # User Service — port 8083
+  # Handles: customer profiles, worker profiles, KYC workflow, availability
+  # ---------------------------------------------------------------------------
+  user-service:
+    build:
+      context: ./helper-user-service
+      dockerfile: Dockerfile
+    container_name: helper-user-service
+    restart: unless-stopped
+    ports:
+      - "8083:8083"
+    environment:
+      <<: [*common-spring-env, *common-db-env, *common-redis-env, *common-jwt-env]
+      # Use local filesystem for uploads in dev; switch to S3 in production
+      APP_UPLOAD_STORAGE_TYPE: local
+    volumes:
+      - uploads_kyc:/app/uploads/kyc
+      - uploads_portfolio:/app/uploads/portfolio
+      - uploads_profiles:/app/uploads/profiles
+    <<: *service-depends
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8083/actuator/health | grep -q UP || exit 1"]
+      <<: *healthcheck-defaults
+
+  # ---------------------------------------------------------------------------
+  # Task Service — port 8082
+  # Handles: task CRUD, full lifecycle, geo-search, open bidding, fixed-price
+  # ---------------------------------------------------------------------------
+  task-service:
+    build:
+      context: ./helper-task-service
+      dockerfile: Dockerfile
+    container_name: helper-task-service
+    restart: unless-stopped
+    ports:
+      - "8082:8082"
+    environment:
+      <<: [*common-spring-env, *common-db-env, *common-redis-env, *common-jwt-env]
+    <<: *service-depends
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8082/actuator/health | grep -q UP || exit 1"]
+      <<: *healthcheck-defaults
+
+  # ---------------------------------------------------------------------------
+  # Payment Service — port 8084
+  # Handles: payment initiation, commission deduction, worker ledger, invoices
+  # ---------------------------------------------------------------------------
+  payment-service:
+    build:
+      context: ./helper-payment-service
+      dockerfile: Dockerfile
+    container_name: helper-payment-service
+    restart: unless-stopped
+    ports:
+      - "8084:8084"
+    environment:
+      <<: [*common-spring-env, *common-db-env, *common-redis-env, *common-jwt-env]
+    volumes:
+      - uploads_invoices:/app/uploads/invoices
+    <<: *service-depends
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8084/actuator/health | grep -q UP || exit 1"]
+      <<: *healthcheck-defaults
+
+  # ---------------------------------------------------------------------------
+  # Rating Service — port 8085
+  # Handles: bidirectional ratings, weighted scoring, flagging system
+  # ---------------------------------------------------------------------------
+  rating-service:
+    build:
+      context: ./helper-rating-service
+      dockerfile: Dockerfile
+    container_name: helper-rating-service
+    restart: unless-stopped
+    ports:
+      - "8085:8085"
+    environment:
+      <<: [*common-spring-env, *common-db-env, *common-redis-env, *common-jwt-env]
+    <<: *service-depends
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8085/actuator/health | grep -q UP || exit 1"]
+      <<: *healthcheck-defaults
+
+  # ---------------------------------------------------------------------------
+  # Notification Service — port 8086
+  # Handles: email, SMS, push notifications across all platform events
+  # Email and SMS are disabled by default — configure below to enable
+  # ---------------------------------------------------------------------------
+  notification-service:
+    build:
+      context: ./helper-notification-service
+      dockerfile: Dockerfile
+    container_name: helper-notification-service
+    restart: unless-stopped
+    ports:
+      - "8086:8086"
+    environment:
+      <<: [*common-spring-env, *common-db-env, *common-redis-env, *common-jwt-env]
+      MAIL_HOST: ${MAIL_HOST:-smtp.gmail.com}
+      MAIL_PORT: ${MAIL_PORT:-587}
+      MAIL_USERNAME: ${MAIL_USERNAME:-noreply@helper.app}
+      MAIL_PASSWORD: ${MAIL_PASSWORD:-}
+      SMS_API_KEY: ${SMS_API_KEY:-}
+    <<: *service-depends
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8086/actuator/health | grep -q UP || exit 1"]
+      <<: *healthcheck-defaults
+
+# =============================================================================
+# VOLUMES
+# =============================================================================
+volumes:
+  postgres_data:
+    name: helper_postgres_data
+  redis_data:
+    name: helper_redis_data
+  uploads_kyc:
+    name: helper_uploads_kyc
+  uploads_portfolio:
+    name: helper_uploads_portfolio
+  uploads_profiles:
+    name: helper_uploads_profiles
+  uploads_invoices:
+    name: helper_uploads_invoices

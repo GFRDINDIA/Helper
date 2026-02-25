@@ -1,0 +1,37 @@
+# =============================================================================
+# Helper Platform — Root .gitignore
+# =============================================================================
+
+# Environment / secrets — NEVER commit these
+.env
+*.env.local
+
+# Maven build output
+**/target/
+**/.mvn/wrapper/maven-wrapper.jar
+
+# IDE files
+.idea/
+**/.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+**/.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Local file uploads (managed by Docker volumes in compose)
+**/uploads/
+
+# Docker
+**/.docker/
+
+# Logs
+*.log
+**/logs/
+
+# Test reports
+**/surefire-reports/
