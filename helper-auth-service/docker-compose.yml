@@ -1,0 +1,77 @@
+# ============================================
+# Helper Auth Service - Docker Compose (Local Dev)
+# ============================================
+# Usage:
+#   docker-compose up -d        → Start all services
+#   docker-compose up -d db     → Start only PostgreSQL
+#   docker-compose logs -f app  → View app logs
+#   docker-compose down -v      → Stop and clean up
+
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  db:
+    image: postgres:15-alpine
+    container_name: helper-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: helperdb
+      POSTGRES_USER: helper_admin
+      POSTGRES_PASSWORD: helper_secret_2026
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U helper_admin -d helperdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: helper-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Auth Service Application
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: helper-auth-service
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: helperdb
+      DB_USERNAME: helper_admin
+      DB_PASSWORD: helper_secret_2026
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      MAIL_USERNAME: ${MAIL_USERNAME:-your-email@gmail.com}
+      MAIL_PASSWORD: ${MAIL_PASSWORD:-your-app-password}
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
+  redis_data:
