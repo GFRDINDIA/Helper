@@ -1,0 +1,179 @@
+##############################################
+# Helper Platform — Full Stack Docker Compose
+# Starts ALL 7 services + PostgreSQL + Redis
+##############################################
+version: '3.8'
+
+services:
+
+  # ===== INFRASTRUCTURE =====
+  postgres:
+    image: postgis/postgis:16-3.4-alpine
+    container_name: helper-postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: helperdb
+      POSTGRES_USER: helper_admin
+      POSTGRES_PASSWORD: helper_secret_2026
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U helper_admin -d helperdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: helper-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ===== MICROSERVICES =====
+  auth-service:
+    build: ./helper-auth-service
+    container_name: helper-auth-service
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: helperdb
+      DB_USERNAME: helper_admin
+      DB_PASSWORD: helper_secret_2026
+      APP_JWT_SECRET: ${APP_JWT_SECRET}
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  task-service:
+    build: ./helper-task-service
+    container_name: helper-task-service
+    restart: unless-stopped
+    ports:
+      - "8082:8082"
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      DB_HOST: postgres
+      DB_NAME: helperdb
+      DB_USERNAME: helper_admin
+      DB_PASSWORD: helper_secret_2026
+      APP_JWT_SECRET: ${APP_JWT_SECRET}
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  user-service:
+    build: ./helper-user-service
+    container_name: helper-user-service
+    restart: unless-stopped
+    ports:
+      - "8083:8083"
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      DB_HOST: postgres
+      DB_NAME: helperdb
+      DB_USERNAME: helper_admin
+      DB_PASSWORD: helper_secret_2026
+      REDIS_HOST: redis
+      APP_JWT_SECRET: ${APP_JWT_SECRET}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  payment-service:
+    build: ./helper-payment-service
+    container_name: helper-payment-service
+    restart: unless-stopped
+    ports:
+      - "8084:8084"
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      DB_HOST: postgres
+      DB_NAME: helperdb
+      DB_USERNAME: helper_admin
+      DB_PASSWORD: helper_secret_2026
+      REDIS_HOST: redis
+      APP_JWT_SECRET: ${APP_JWT_SECRET}
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  rating-service:
+    build: ./helper-rating-service
+    container_name: helper-rating-service
+    restart: unless-stopped
+    ports:
+      - "8085:8085"
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      DB_HOST: postgres
+      DB_NAME: helperdb
+      DB_USERNAME: helper_admin
+      DB_PASSWORD: helper_secret_2026
+      REDIS_HOST: redis
+      APP_JWT_SECRET: ${APP_JWT_SECRET}
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  notification-service:
+    build: ./helper-notification-service
+    container_name: helper-notification-service
+    restart: unless-stopped
+    ports:
+      - "8086:8086"
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      DB_HOST: postgres
+      DB_NAME: helperdb
+      DB_USERNAME: helper_admin
+      DB_PASSWORD: helper_secret_2026
+      REDIS_HOST: redis
+      APP_JWT_SECRET: ${APP_JWT_SECRET}
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # ===== API GATEWAY (single entry point) =====
+  api-gateway:
+    build: ./helper-api-gateway
+    container_name: helper-api-gateway
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      APP_JWT_SECRET: ${APP_JWT_SECRET}
+      AUTH_SERVICE_URL: http://auth-service:8081
+      TASK_SERVICE_URL: http://task-service:8082
+      USER_SERVICE_URL: http://user-service:8083
+      PAYMENT_SERVICE_URL: http://payment-service:8084
+      RATING_SERVICE_URL: http://rating-service:8085
+      NOTIFICATION_SERVICE_URL: http://notification-service:8086
+      REDIS_HOST: redis
+    depends_on:
+      - auth-service
+      - task-service
+      - user-service
+      - payment-service
+      - rating-service
+      - notification-service
+
+volumes:
+  postgres_data:
+  redis_data:
