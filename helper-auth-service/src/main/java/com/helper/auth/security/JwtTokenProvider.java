@@ -28,7 +28,7 @@ public class JwtTokenProvider {
         byte[] keyBytes = Decoders.BASE64.decode(
                 java.util.Base64.getEncoder().encodeToString(jwtSecret.getBytes()));
         this.key = Keys.hmacShaKeyFor(keyBytes.length >= 32 ? keyBytes :
-                Keys.secretKeyFor(Jwts.SIG.HS256).getEncoded());
+                Jwts.SIG.HS256.key().build().getEncoded());
         this.accessTokenExpirationMs = accessTokenExpirationMs;
         this.refreshTokenExpirationMs = refreshTokenExpirationMs;
     }

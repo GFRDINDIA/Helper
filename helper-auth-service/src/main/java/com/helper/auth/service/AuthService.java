@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
 @Service
@@ -291,7 +292,7 @@ public class AuthService {
                 .token(refreshTokenStr)
                 .user(user)
                 .deviceInfo(deviceInfo)
-                .expiresAt(LocalDateTime.now().plusMillis(jwtTokenProvider.getRefreshTokenExpirationMs()))
+                .expiresAt(LocalDateTime.now().plus(jwtTokenProvider.getRefreshTokenExpirationMs(), ChronoUnit.MILLIS))
                 .build();
         refreshTokenRepository.save(refreshToken);
 
