@@ -1,6 +1,7 @@
 package com.helper.rating.security;
 
 import io.jsonwebtoken.*;
+import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,9 +17,10 @@ public class JwtTokenProvider {
     private final SecretKey key;
 
     public JwtTokenProvider(@Value("${app.jwt.secret}") String jwtSecret) {
-        byte[] keyBytes = java.util.Base64.getEncoder().encode(jwtSecret.getBytes());
+        byte[] keyBytes = Decoders.BASE64.decode(
+                java.util.Base64.getEncoder().encodeToString(jwtSecret.getBytes()));
         this.key = Keys.hmacShaKeyFor(keyBytes.length >= 32 ? keyBytes :
-                Keys.secretKeyFor(Jwts.SIG.HS256).getEncoded());
+                Jwts.SIG.HS256.key().build().getEncoded());
     }
 
     public UUID getUserIdFromToken(String token) {

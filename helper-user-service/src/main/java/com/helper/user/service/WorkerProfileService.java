@@ -158,6 +158,7 @@ public class WorkerProfileService {
 
     // ===== GET PROFILE =====
 
+    @Transactional(readOnly = true)
     public WorkerProfileResponse getProfile(UUID workerId) {
         WorkerProfile profile = getProfileOrThrow(workerId);
         return mapToResponse(profile);

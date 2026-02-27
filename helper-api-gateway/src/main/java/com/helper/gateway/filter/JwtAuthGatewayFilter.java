@@ -1,7 +1,11 @@
 package com.helper.gateway.filter;
 
+import com.helper.gateway.config.AppGatewayProperties;
 import io.jsonwebtoken.*;
+import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -18,7 +22,6 @@ import reactor.core.publisher.Mono;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
 
 /**
  * Global JWT validation filter for the API Gateway.
@@ -39,15 +42,25 @@ import java.util.List;
  */
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class JwtAuthGatewayFilter implements GlobalFilter, Ordered {
 
     @Value("${app.jwt.secret}")
     private String jwtSecret;
 
-    @Value("${app.gateway.open-paths}")
-    private List<String> openPaths;
+    private final AppGatewayProperties gatewayProperties;
 
+    private SecretKey secretKey;
     private final AntPathMatcher pathMatcher = new AntPathMatcher();
+
+    @PostConstruct
+    public void init() {
+        // Identical derivation to auth-service: encode→decode is a no-op, giving us secret bytes
+        byte[] keyBytes = Decoders.BASE64.decode(
+                java.util.Base64.getEncoder().encodeToString(jwtSecret.getBytes()));
+        this.secretKey = Keys.hmacShaKeyFor(keyBytes.length >= 32 ? keyBytes :
+                Jwts.SIG.HS256.key().build().getEncoded());
+    }
 
     @Override
     public int getOrder() {
@@ -75,9 +88,8 @@ public class JwtAuthGatewayFilter implements GlobalFilter, Ordered {
 
         // 3. Validate JWT
         try {
-            SecretKey key = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
             Claims claims = Jwts.parser()
-                    .verifyWith(key)
+                    .verifyWith(secretKey)
                     .build()
                     .parseSignedClaims(token)
                     .getPayload();
@@ -107,7 +119,7 @@ public class JwtAuthGatewayFilter implements GlobalFilter, Ordered {
     }
 
     private boolean isOpenPath(String path) {
-        for (String pattern : openPaths) {
+        for (String pattern : gatewayProperties.getOpenPaths()) {
             if (pathMatcher.match(pattern, path)) {
                 return true;
             }

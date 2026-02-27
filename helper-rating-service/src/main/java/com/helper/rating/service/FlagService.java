@@ -114,11 +114,12 @@ public class FlagService {
 
         // If admin wants to hide the associated rating
         if (Boolean.TRUE.equals(request.getHideRating()) && flag.getRatingId() != null) {
-            ratingRepo.findById(flag.getRatingId()).ifPresent(r -> {
+            UUID hiddenRatingId = flag.getRatingId();
+            ratingRepo.findById(hiddenRatingId).ifPresent(r -> {
                 r.setIsVisible(false);
                 ratingRepo.save(r);
                 ratingService.recalculateSummary(r.getGivenTo());
-                log.info("Rating {} hidden by admin action on flag {}", flag.getRatingId(), flagId);
+                log.info("Rating {} hidden by admin action on flag {}", hiddenRatingId, flagId);
             });
         }
 
