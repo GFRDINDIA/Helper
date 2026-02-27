@@ -74,6 +74,71 @@ export interface NotificationStats {
   activeDeviceTokens: number;
 }
 
+// ===== PAGINATION =====
+export interface PagedResponse<T> {
+  content: T[];
+  totalElements: number;
+  totalPages: number;
+  number: number;
+  size: number;
+  first: boolean;
+  last: boolean;
+}
+
+// ===== USERS =====
+export interface PlatformUser {
+  userId: string;
+  fullName: string;
+  email: string;
+  phone: string;
+  role: "ADMIN" | "CUSTOMER" | "WORKER";
+  verificationStatus: "PENDING" | "VERIFIED" | "REJECTED" | "SUSPENDED";
+  emailVerified: boolean;
+  profileImageUrl: string | null;
+  createdAt: string;
+}
+
+// ===== KYC =====
+export interface KycDocument {
+  id: string;
+  userId: string;
+  userName: string;
+  email: string;
+  documentType: string;
+  documentUrl: string;
+  status: "PENDING" | "APPROVED" | "REJECTED";
+  submittedAt: string;
+  reviewedAt: string | null;
+  adminNotes: string | null;
+}
+
+export interface KycReviewRequest {
+  status: "APPROVED" | "REJECTED";
+  adminNotes?: string;
+}
+
+// ===== FLAGS =====
+export interface RatingFlag {
+  id: string;
+  ratingId: string;
+  flaggedByUserId: string;
+  flaggedByName: string;
+  reason: string;
+  status: "PENDING" | "DISMISSED" | "ACTION_TAKEN";
+  ratingScore: number;
+  ratingComment: string;
+  taskId: string;
+  targetUserId: string;
+  targetUserName: string;
+  createdAt: string;
+}
+
+export interface FlagReviewRequest {
+  action: "DISMISS" | "ACTION_TAKEN";
+  hideRating?: boolean;
+  adminNote?: string;
+}
+
 // ===== API WRAPPER =====
 export interface ApiResponse<T> {
   success: boolean;

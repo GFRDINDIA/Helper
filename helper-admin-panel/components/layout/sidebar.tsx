@@ -26,25 +26,25 @@ const navItems = [
     href: "/users",
     label: "Users",
     icon: Users,
-    available: false,
+    available: true,
   },
   {
     href: "/kyc",
     label: "KYC Approvals",
     icon: FileCheck,
-    available: false,
+    available: true,
   },
   {
     href: "/tasks",
     label: "Tasks",
     icon: ClipboardList,
-    available: false,
+    available: true,
   },
   {
     href: "/flags",
     label: "Flags & Disputes",
     icon: Flag,
-    available: false,
+    available: true,
   },
 ];
 
