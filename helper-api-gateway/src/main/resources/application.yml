@@ -34,6 +34,17 @@ spring:
                 name: authCircuitBreaker
                 fallbackUri: forward:/fallback/auth
 
+        # Auth service — admin endpoints (user stats + user management)
+        - id: auth-service-admin
+          uri: ${AUTH_SERVICE_URL:http://localhost:8081}
+          predicates:
+            - Path=/api/v1/admin/stats,/api/v1/admin/users/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: authCircuitBreaker
+                fallbackUri: forward:/fallback/auth
+
         # ==========================================
         # 2. TASK SERVICE (port 8082)
         # ==========================================
@@ -41,6 +52,17 @@ spring:
           uri: ${TASK_SERVICE_URL:http://localhost:8082}
           predicates:
             - Path=/api/v1/tasks/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: taskCircuitBreaker
+                fallbackUri: forward:/fallback/task
+
+        # Task service — bids endpoints
+        - id: task-service-bids
+          uri: ${TASK_SERVICE_URL:http://localhost:8082}
+          predicates:
+            - Path=/api/v1/bids/**
           filters:
             - name: CircuitBreaker
               args:
