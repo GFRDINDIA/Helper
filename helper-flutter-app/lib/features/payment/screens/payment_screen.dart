@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../data/payment_repository.dart';
 import '../../auth/providers/auth_provider.dart';
-import '../../customer/providers/customer_provider.dart';
+import '../../customer/data/customer_repository.dart';
 import '../../../shared/theme/app_theme.dart';
 import '../../../shared/widgets/helper_button.dart';
 import '../../../core/network/api_exception.dart';

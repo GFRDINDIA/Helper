@@ -1,0 +1,259 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.gfrnd.helper"
+4    android:versionCode="1"
+5    android:versionName="1.0.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="21"
+9        android:targetSdkVersion="35" />
+10
+11    <!-- Permissions -->
+12    <uses-permission android:name="android.permission.INTERNET" />
+12-->C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\android\app\src\main\AndroidManifest.xml:5:5-66
+12-->C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\android\app\src\main\AndroidManifest.xml:5:22-64
+13    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+13-->C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\android\app\src\main\AndroidManifest.xml:6:5-78
+13-->C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\android\app\src\main\AndroidManifest.xml:6:22-76
+14    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+14-->C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\android\app\src\main\AndroidManifest.xml:7:5-80
+14-->C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\android\app\src\main\AndroidManifest.xml:7:22-78
+15    <uses-permission android:name="android.permission.CAMERA" />
+15-->C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\android\app\src\main\AndroidManifest.xml:8:5-64
+15-->C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\android\app\src\main\AndroidManifest.xml:8:22-62
+16    <uses-permission
+16-->C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\android\app\src\main\AndroidManifest.xml:9:5-10:37
+17        android:name="android.permission.READ_EXTERNAL_STORAGE"
+17-->C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\android\app\src\main\AndroidManifest.xml:9:22-77
+18        android:maxSdkVersion="32" />
+18-->C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\android\app\src\main\AndroidManifest.xml:10:9-35
+19    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+19-->C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\android\app\src\main\AndroidManifest.xml:11:5-75
+19-->C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\android\app\src\main\AndroidManifest.xml:11:22-73
+20
+21    <!-- Required for geolocator -->
+22    <queries>
+22-->C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\android\app\src\main\AndroidManifest.xml:46:5-51:15
+23        <intent>
+23-->C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\android\app\src\main\AndroidManifest.xml:47:9-50:18
+24            <action android:name="android.intent.action.VIEW" />
+24-->C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\android\app\src\main\AndroidManifest.xml:48:13-64
+24-->C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\android\app\src\main\AndroidManifest.xml:48:21-62
+25
+26            <data android:scheme="geo" />
+26-->C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\android\app\src\main\AndroidManifest.xml:49:13-41
+26-->C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\android\app\src\main\AndroidManifest.xml:49:19-39
+27        </intent>
+28    </queries>
+29
+30    <permission
+30-->[androidx.core:core:1.13.1] C:\Users\ASUS\.gradle\caches\transforms-3\99cd6ef091edcacdea6ef130e976ebaf\transformed\core-1.13.1\AndroidManifest.xml:22:5-24:47
+31        android:name="com.gfrnd.helper.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+31-->[androidx.core:core:1.13.1] C:\Users\ASUS\.gradle\caches\transforms-3\99cd6ef091edcacdea6ef130e976ebaf\transformed\core-1.13.1\AndroidManifest.xml:23:9-81
+32        android:protectionLevel="signature" />
+32-->[androidx.core:core:1.13.1] C:\Users\ASUS\.gradle\caches\transforms-3\99cd6ef091edcacdea6ef130e976ebaf\transformed\core-1.13.1\AndroidManifest.xml:24:9-44
+33
+34    <uses-permission android:name="com.gfrnd.helper.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+34-->[androidx.core:core:1.13.1] C:\Users\ASUS\.gradle\caches\transforms-3\99cd6ef091edcacdea6ef130e976ebaf\transformed\core-1.13.1\AndroidManifest.xml:26:5-97
+34-->[androidx.core:core:1.13.1] C:\Users\ASUS\.gradle\caches\transforms-3\99cd6ef091edcacdea6ef130e976ebaf\transformed\core-1.13.1\AndroidManifest.xml:26:22-94
+35
+36    <application
+37        android:name="android.app.Application"
+37-->C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\android\app\src\main\AndroidManifest.xml:15:9-42
+38        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+38-->[androidx.core:core:1.13.1] C:\Users\ASUS\.gradle\caches\transforms-3\99cd6ef091edcacdea6ef130e976ebaf\transformed\core-1.13.1\AndroidManifest.xml:28:18-86
+39        android:debuggable="true"
+40        android:extractNativeLibs="true"
+41        android:icon="@mipmap/ic_launcher"
+41-->C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\android\app\src\main\AndroidManifest.xml:16:9-43
+42        android:label="Helper"
+42-->C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\android\app\src\main\AndroidManifest.xml:14:9-31
+43        android:networkSecurityConfig="@xml/network_security_config"
+43-->C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\android\app\src\main\AndroidManifest.xml:17:9-69
+44        android:requestLegacyExternalStorage="true" >
+44-->C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\android\app\src\main\AndroidManifest.xml:18:9-52
+45        <activity
+45-->C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\android\app\src\main\AndroidManifest.xml:20:9-38:20
+46            android:name="com.gfrnd.helper.MainActivity"
+46-->C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\android\app\src\main\AndroidManifest.xml:21:13-41
+47            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+47-->C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\android\app\src\main\AndroidManifest.xml:26:13-163
+48            android:exported="true"
+48-->C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\android\app\src\main\AndroidManifest.xml:22:13-36
+49            android:hardwareAccelerated="true"
+49-->C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\android\app\src\main\AndroidManifest.xml:27:13-47
+50            android:launchMode="singleTop"
+50-->C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\android\app\src\main\AndroidManifest.xml:23:13-43
+51            android:taskAffinity=""
+51-->C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\android\app\src\main\AndroidManifest.xml:24:13-36
+52            android:theme="@style/LaunchTheme"
+52-->C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\android\app\src\main\AndroidManifest.xml:25:13-47
+53            android:windowSoftInputMode="adjustResize" >
+53-->C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\android\app\src\main\AndroidManifest.xml:28:13-55
+54            <meta-data
+54-->C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\android\app\src\main\AndroidManifest.xml:30:13-32:56
+55                android:name="io.flutter.embedding.android.NormalTheme"
+55-->C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\android\app\src\main\AndroidManifest.xml:31:17-72
+56                android:resource="@style/NormalTheme" />
+56-->C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\android\app\src\main\AndroidManifest.xml:32:17-54
+57
+58            <intent-filter>
+58-->C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\android\app\src\main\AndroidManifest.xml:34:13-37:29
+59                <action android:name="android.intent.action.MAIN" />
+59-->C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\android\app\src\main\AndroidManifest.xml:35:17-68
+59-->C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\android\app\src\main\AndroidManifest.xml:35:25-66
+60
+61                <category android:name="android.intent.category.LAUNCHER" />
+61-->C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\android\app\src\main\AndroidManifest.xml:36:17-76
+61-->C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\android\app\src\main\AndroidManifest.xml:36:27-74
+62            </intent-filter>
+63        </activity>
+64
+65        <meta-data
+65-->C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\android\app\src\main\AndroidManifest.xml:40:9-42:32
+66            android:name="flutterEmbedding"
+66-->C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\android\app\src\main\AndroidManifest.xml:41:13-44
+67            android:value="2" />
+67-->C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\android\app\src\main\AndroidManifest.xml:42:13-30
+68
+69        <provider
+69-->[:image_picker_android] C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\build\image_picker_android\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:9:9-17:20
+70            android:name="io.flutter.plugins.imagepicker.ImagePickerFileProvider"
+70-->[:image_picker_android] C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\build\image_picker_android\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:10:13-82
+71            android:authorities="com.gfrnd.helper.flutter.image_provider"
+71-->[:image_picker_android] C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\build\image_picker_android\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:11:13-74
+72            android:exported="false"
+72-->[:image_picker_android] C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\build\image_picker_android\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:12:13-37
+73            android:grantUriPermissions="true" >
+73-->[:image_picker_android] C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\build\image_picker_android\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:13:13-47
+74            <meta-data
+74-->[:image_picker_android] C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\build\image_picker_android\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:14:13-16:75
+75                android:name="android.support.FILE_PROVIDER_PATHS"
+75-->[:image_picker_android] C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\build\image_picker_android\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:15:17-67
+76                android:resource="@xml/flutter_image_picker_file_paths" />
+76-->[:image_picker_android] C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\build\image_picker_android\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:16:17-72
+77        </provider> <!-- Trigger Google Play services to install the backported photo picker module. -->
+78        <service
+78-->[:image_picker_android] C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\build\image_picker_android\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:19:9-31:19
+79            android:name="com.google.android.gms.metadata.ModuleDependencies"
+79-->[:image_picker_android] C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\build\image_picker_android\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:20:13-78
+80            android:enabled="false"
+80-->[:image_picker_android] C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\build\image_picker_android\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:21:13-36
+81            android:exported="false" >
+81-->[:image_picker_android] C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\build\image_picker_android\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:22:13-37
+82            <intent-filter>
+82-->[:image_picker_android] C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\build\image_picker_android\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:24:13-26:29
+83                <action android:name="com.google.android.gms.metadata.MODULE_DEPENDENCIES" />
+83-->[:image_picker_android] C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\build\image_picker_android\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:25:17-94
+83-->[:image_picker_android] C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\build\image_picker_android\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:25:25-91
+84            </intent-filter>
+85
+86            <meta-data
+86-->[:image_picker_android] C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\build\image_picker_android\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:28:13-30:36
+87                android:name="photopicker_activity:0:required"
+87-->[:image_picker_android] C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\build\image_picker_android\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:29:17-63
+88                android:value="" />
+88-->[:image_picker_android] C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\build\image_picker_android\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:30:17-33
+89        </service>
+90        <service
+90-->[:geolocator_android] C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\build\geolocator_android\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:8:9-12:56
+91            android:name="com.baseflow.geolocator.GeolocatorLocationService"
+91-->[:geolocator_android] C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\build\geolocator_android\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:9:13-77
+92            android:enabled="true"
+92-->[:geolocator_android] C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\build\geolocator_android\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:10:13-35
+93            android:exported="false"
+93-->[:geolocator_android] C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\build\geolocator_android\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:11:13-37
+94            android:foregroundServiceType="location" />
+94-->[:geolocator_android] C:\Users\ASUS\Documents\Work\GFRND\Dev\Helper\helper-flutter-app\build\geolocator_android\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:12:13-53
+95
+96        <uses-library
+96-->[androidx.window:window:1.2.0] C:\Users\ASUS\.gradle\caches\transforms-3\d7ffc56a7ea0674f8a651f603640517c\transformed\jetified-window-1.2.0\AndroidManifest.xml:23:9-25:40
+97            android:name="androidx.window.extensions"
+97-->[androidx.window:window:1.2.0] C:\Users\ASUS\.gradle\caches\transforms-3\d7ffc56a7ea0674f8a651f603640517c\transformed\jetified-window-1.2.0\AndroidManifest.xml:24:13-54
+98            android:required="false" />
+98-->[androidx.window:window:1.2.0] C:\Users\ASUS\.gradle\caches\transforms-3\d7ffc56a7ea0674f8a651f603640517c\transformed\jetified-window-1.2.0\AndroidManifest.xml:25:13-37
+99        <uses-library
+99-->[androidx.window:window:1.2.0] C:\Users\ASUS\.gradle\caches\transforms-3\d7ffc56a7ea0674f8a651f603640517c\transformed\jetified-window-1.2.0\AndroidManifest.xml:26:9-28:40
+100            android:name="androidx.window.sidecar"
+100-->[androidx.window:window:1.2.0] C:\Users\ASUS\.gradle\caches\transforms-3\d7ffc56a7ea0674f8a651f603640517c\transformed\jetified-window-1.2.0\AndroidManifest.xml:27:13-51
+101            android:required="false" />
+101-->[androidx.window:window:1.2.0] C:\Users\ASUS\.gradle\caches\transforms-3\d7ffc56a7ea0674f8a651f603640517c\transformed\jetified-window-1.2.0\AndroidManifest.xml:28:13-37
+102
+103        <activity
+103-->[com.google.android.gms:play-services-base:18.3.0] C:\Users\ASUS\.gradle\caches\transforms-3\6412989daf205e2e140eda536d1339a9\transformed\jetified-play-services-base-18.3.0\AndroidManifest.xml:20:9-22:45
+104            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+104-->[com.google.android.gms:play-services-base:18.3.0] C:\Users\ASUS\.gradle\caches\transforms-3\6412989daf205e2e140eda536d1339a9\transformed\jetified-play-services-base-18.3.0\AndroidManifest.xml:20:19-85
+105            android:exported="false"
+105-->[com.google.android.gms:play-services-base:18.3.0] C:\Users\ASUS\.gradle\caches\transforms-3\6412989daf205e2e140eda536d1339a9\transformed\jetified-play-services-base-18.3.0\AndroidManifest.xml:22:19-43
+106            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+106-->[com.google.android.gms:play-services-base:18.3.0] C:\Users\ASUS\.gradle\caches\transforms-3\6412989daf205e2e140eda536d1339a9\transformed\jetified-play-services-base-18.3.0\AndroidManifest.xml:21:19-78
+107
+108        <meta-data
+108-->[com.google.android.gms:play-services-basement:18.3.0] C:\Users\ASUS\.gradle\caches\transforms-3\19ba46947b967726dfbf209f625f7394\transformed\jetified-play-services-basement-18.3.0\AndroidManifest.xml:21:9-23:69
+109            android:name="com.google.android.gms.version"
+109-->[com.google.android.gms:play-services-basement:18.3.0] C:\Users\ASUS\.gradle\caches\transforms-3\19ba46947b967726dfbf209f625f7394\transformed\jetified-play-services-basement-18.3.0\AndroidManifest.xml:22:13-58
+110            android:value="@integer/google_play_services_version" />
+110-->[com.google.android.gms:play-services-basement:18.3.0] C:\Users\ASUS\.gradle\caches\transforms-3\19ba46947b967726dfbf209f625f7394\transformed\jetified-play-services-basement-18.3.0\AndroidManifest.xml:23:13-66
+111
+112        <provider
+112-->[androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\ASUS\.gradle\caches\transforms-3\b4bfa96bf7b2c2bac989a1c9b4a62eb8\transformed\jetified-lifecycle-process-2.7.0\AndroidManifest.xml:24:9-32:20
+113            android:name="androidx.startup.InitializationProvider"
+113-->[androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\ASUS\.gradle\caches\transforms-3\b4bfa96bf7b2c2bac989a1c9b4a62eb8\transformed\jetified-lifecycle-process-2.7.0\AndroidManifest.xml:25:13-67
+114            android:authorities="com.gfrnd.helper.androidx-startup"
+114-->[androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\ASUS\.gradle\caches\transforms-3\b4bfa96bf7b2c2bac989a1c9b4a62eb8\transformed\jetified-lifecycle-process-2.7.0\AndroidManifest.xml:26:13-68
+115            android:exported="false" >
+115-->[androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\ASUS\.gradle\caches\transforms-3\b4bfa96bf7b2c2bac989a1c9b4a62eb8\transformed\jetified-lifecycle-process-2.7.0\AndroidManifest.xml:27:13-37
+116            <meta-data
+116-->[androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\ASUS\.gradle\caches\transforms-3\b4bfa96bf7b2c2bac989a1c9b4a62eb8\transformed\jetified-lifecycle-process-2.7.0\AndroidManifest.xml:29:13-31:52
+117                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+117-->[androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\ASUS\.gradle\caches\transforms-3\b4bfa96bf7b2c2bac989a1c9b4a62eb8\transformed\jetified-lifecycle-process-2.7.0\AndroidManifest.xml:30:17-78
+118                android:value="androidx.startup" />
+118-->[androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\ASUS\.gradle\caches\transforms-3\b4bfa96bf7b2c2bac989a1c9b4a62eb8\transformed\jetified-lifecycle-process-2.7.0\AndroidManifest.xml:31:17-49
+119            <meta-data
+119-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\ASUS\.gradle\caches\transforms-3\1a2ba3efe190b30e7a778132409ce4cb\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:29:13-31:52
+120                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+120-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\ASUS\.gradle\caches\transforms-3\1a2ba3efe190b30e7a778132409ce4cb\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:30:17-85
+121                android:value="androidx.startup" />
+121-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\ASUS\.gradle\caches\transforms-3\1a2ba3efe190b30e7a778132409ce4cb\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:31:17-49
+122        </provider>
+123
+124        <receiver
+124-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\ASUS\.gradle\caches\transforms-3\1a2ba3efe190b30e7a778132409ce4cb\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:34:9-52:20
+125            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+125-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\ASUS\.gradle\caches\transforms-3\1a2ba3efe190b30e7a778132409ce4cb\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:35:13-76
+126            android:directBootAware="false"
+126-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\ASUS\.gradle\caches\transforms-3\1a2ba3efe190b30e7a778132409ce4cb\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:36:13-44
+127            android:enabled="true"
+127-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\ASUS\.gradle\caches\transforms-3\1a2ba3efe190b30e7a778132409ce4cb\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:37:13-35
+128            android:exported="true"
+128-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\ASUS\.gradle\caches\transforms-3\1a2ba3efe190b30e7a778132409ce4cb\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:38:13-36
+129            android:permission="android.permission.DUMP" >
+129-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\ASUS\.gradle\caches\transforms-3\1a2ba3efe190b30e7a778132409ce4cb\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:39:13-57
+130            <intent-filter>
+130-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\ASUS\.gradle\caches\transforms-3\1a2ba3efe190b30e7a778132409ce4cb\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:40:13-42:29
+131                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+131-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\ASUS\.gradle\caches\transforms-3\1a2ba3efe190b30e7a778132409ce4cb\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:41:17-91
+131-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\ASUS\.gradle\caches\transforms-3\1a2ba3efe190b30e7a778132409ce4cb\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:41:25-88
+132            </intent-filter>
+133            <intent-filter>
+133-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\ASUS\.gradle\caches\transforms-3\1a2ba3efe190b30e7a778132409ce4cb\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:43:13-45:29
+134                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+134-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\ASUS\.gradle\caches\transforms-3\1a2ba3efe190b30e7a778132409ce4cb\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:44:17-85
+134-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\ASUS\.gradle\caches\transforms-3\1a2ba3efe190b30e7a778132409ce4cb\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:44:25-82
+135            </intent-filter>
+136            <intent-filter>
+136-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\ASUS\.gradle\caches\transforms-3\1a2ba3efe190b30e7a778132409ce4cb\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:46:13-48:29
+137                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+137-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\ASUS\.gradle\caches\transforms-3\1a2ba3efe190b30e7a778132409ce4cb\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:47:17-88
+137-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\ASUS\.gradle\caches\transforms-3\1a2ba3efe190b30e7a778132409ce4cb\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:47:25-85
+138            </intent-filter>
+139            <intent-filter>
+139-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\ASUS\.gradle\caches\transforms-3\1a2ba3efe190b30e7a778132409ce4cb\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:49:13-51:29
+140                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+140-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\ASUS\.gradle\caches\transforms-3\1a2ba3efe190b30e7a778132409ce4cb\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:50:17-95
+140-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\ASUS\.gradle\caches\transforms-3\1a2ba3efe190b30e7a778132409ce4cb\transformed\jetified-profileinstaller-1.4.0\AndroidManifest.xml:50:25-92
+141            </intent-filter>
+142        </receiver>
+143    </application>
+144
+145</manifest>
