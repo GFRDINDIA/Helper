@@ -95,6 +95,7 @@ class AuthNotifier extends AsyncNotifier<AuthState> {
       ));
     } catch (e, st) {
       state = AsyncError(e, st);
+      rethrow;
     }
   }
 

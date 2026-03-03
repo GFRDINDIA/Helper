@@ -22,6 +22,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.Year;
@@ -43,6 +45,14 @@ public class PaymentService {
     private String invoicePrefix;
 
     private final AtomicLong invoiceCounter = new AtomicLong(0);
+
+    @EventListener(ApplicationReadyEvent.class)
+    public void initInvoiceCounter() {
+        // Runs after CommandLineRunner seed data — counter starts past existing invoices
+        long existingCount = paymentRepo.count();
+        invoiceCounter.set(existingCount);
+        log.info("Invoice counter initialized to {} (after seed data loaded)", existingCount);
+    }
 
     // ===== INITIATE PAYMENT =====
     @Transactional

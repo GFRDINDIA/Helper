@@ -1,6 +1,9 @@
 // Base URL — 10.0.2.2 maps to host machine's localhost from Android emulator
 // For physical device on same WiFi, replace with your machine's LAN IP (e.g. 192.168.1.x:8080)
-const String kBaseUrl = 'http://10.0.2.2:8080';
+// For Flutter web (Chrome/Edge), use localhost directly
+import 'package:flutter/foundation.dart' show kIsWeb;
+
+final String kBaseUrl = kIsWeb ? 'http://localhost:8080' : 'http://10.0.2.2:8080';
 
 class ApiEndpoints {
   // Auth

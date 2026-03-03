@@ -21,12 +21,31 @@ import '../../features/payment/screens/payment_screen.dart';
 import '../../features/payment/screens/transaction_history_screen.dart';
 import '../../features/rating/screens/rating_screen.dart';
 
+/// Listens to [authStateProvider] and notifies GoRouter to re-evaluate
+/// redirects whenever auth state changes — without re-creating the router.
+class RouterNotifier extends ChangeNotifier {
+  final Ref _ref;
+
+  RouterNotifier(this._ref) {
+    _ref.listen<AsyncValue<AuthState>>(
+      authStateProvider,
+      (_, __) => notifyListeners(),
+    );
+  }
+}
+
+final _routerNotifierProvider = Provider<RouterNotifier>((ref) {
+  return RouterNotifier(ref);
+});
+
 final routerProvider = Provider<GoRouter>((ref) {
-  final authState = ref.watch(authStateProvider);
+  final notifier = ref.watch(_routerNotifierProvider);
 
   return GoRouter(
     initialLocation: '/splash',
+    refreshListenable: notifier,
     redirect: (context, state) {
+      final authState = ref.read(authStateProvider);
       final isLoading = authState.isLoading;
       final isLoggedIn = authState.valueOrNull?.isLoggedIn ?? false;
       final role = authState.valueOrNull?.role;
