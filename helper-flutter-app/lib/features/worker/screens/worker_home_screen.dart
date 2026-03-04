@@ -21,7 +21,8 @@ class WorkerHomeScreen extends ConsumerStatefulWidget {
 class _WorkerHomeScreenState extends ConsumerState<WorkerHomeScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  Position? _position;
+  double? _lat;
+  double? _lng;
 
   @override
   void initState() {
@@ -32,10 +33,22 @@ class _WorkerHomeScreenState extends ConsumerState<WorkerHomeScreen>
 
   Future<void> _fetchLocation() async {
     try {
-      await Geolocator.requestPermission();
+      final permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied ||
+          permission == LocationPermission.deniedForever) {
+        _setDefaultLocation();
+        return;
+      }
       final pos = await Geolocator.getCurrentPosition();
-      if (mounted) setState(() => _position = pos);
-    } catch (_) {}
+      if (mounted) setState(() { _lat = pos.latitude; _lng = pos.longitude; });
+    } catch (_) {
+      _setDefaultLocation();
+    }
+  }
+
+  void _setDefaultLocation() {
+    // Default to Bangalore center when location is unavailable
+    if (mounted) setState(() { _lat = 12.9716; _lng = 77.5946; });
   }
 
   @override
@@ -46,8 +59,6 @@ class _WorkerHomeScreenState extends ConsumerState<WorkerHomeScreen>
 
   @override
   Widget build(BuildContext context) {
-    final authState = ref.watch(authStateProvider).valueOrNull;
-
     return Scaffold(
       appBar: AppBar(
         title: Column(
@@ -95,8 +106,8 @@ class _WorkerHomeScreenState extends ConsumerState<WorkerHomeScreen>
       body: TabBarView(
         controller: _tabController,
         children: [
-          _AvailableTasksTab(position: _position),
-          _MyBidsTab(),
+          _AvailableTasksTab(lat: _lat, lng: _lng),
+          const _MyBidsTab(),
         ],
       ),
     );
@@ -104,20 +115,21 @@ class _WorkerHomeScreenState extends ConsumerState<WorkerHomeScreen>
 }
 
 class _AvailableTasksTab extends ConsumerWidget {
-  final Position? position;
+  final double? lat;
+  final double? lng;
 
-  const _AvailableTasksTab({this.position});
+  const _AvailableTasksTab({this.lat, this.lng});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if (position == null) {
+    if (lat == null || lng == null) {
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.location_off, size: 48, color: Colors.grey.shade400),
+            const CircularProgressIndicator(),
             const SizedBox(height: 16),
-            Text('Enable location to see available tasks',
+            Text('Getting your location...',
                 style: TextStyle(color: Colors.grey.shade600)),
           ],
         ),
@@ -125,8 +137,8 @@ class _AvailableTasksTab extends ConsumerWidget {
     }
 
     final tasksAsync = ref.watch(availableTasksProvider(AvailableTasksParams(
-      lat: position!.latitude,
-      lng: position!.longitude,
+      lat: lat!,
+      lng: lng!,
     )));
 
     return tasksAsync.when(
@@ -144,8 +156,7 @@ class _AvailableTasksTab extends ConsumerWidget {
             )
           : RefreshIndicator(
               onRefresh: () => ref.refresh(availableTasksProvider(
-                AvailableTasksParams(
-                    lat: position!.latitude, lng: position!.longitude),
+                AvailableTasksParams(lat: lat!, lng: lng!),
               ).future),
               child: ListView.builder(
                 padding: const EdgeInsets.all(16),
@@ -436,9 +447,9 @@ class _MyBidCardState extends ConsumerState<_MyBidCard> {
               const SizedBox(height: 10),
               ElevatedButton.icon(
                 onPressed: () =>
-                    context.push('/customer/task/${bid.taskId}'),
+                    context.push('/task/${bid.taskId}'),
                 icon: const Icon(Icons.open_in_new, size: 16),
-                label: const Text('View Task'),
+                label: const Text('View & Manage Task'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green,
                   foregroundColor: Colors.white,

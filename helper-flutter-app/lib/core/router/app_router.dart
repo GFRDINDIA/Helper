@@ -139,6 +139,12 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/kyc',
         builder: (_, __) => const KycUploadScreen(),
       ),
+      // Shared task detail — used by workers navigating from accepted bids
+      GoRoute(
+        path: '/task/:taskId',
+        builder: (_, state) =>
+            TaskDetailScreen(taskId: state.pathParameters['taskId']!),
+      ),
     ],
     errorBuilder: (_, state) => Scaffold(
       body: Center(child: Text('Page not found: ${state.error}')),

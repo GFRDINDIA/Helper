@@ -14,8 +14,8 @@ class RatingRepository {
     try {
       await _dio.post(ApiEndpoints.ratings, data: {
         'taskId': taskId,
-        'rateeId': rateeId,
-        'type': type,
+        'givenTo': rateeId,
+        'ratingType': type,
         'score': score,
         if (feedback != null && feedback.isNotEmpty) 'feedback': feedback,
       });

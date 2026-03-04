@@ -19,6 +19,17 @@ class AvailableTasksParams {
 
   const AvailableTasksParams(
       {required this.lat, required this.lng, this.domain});
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is AvailableTasksParams &&
+          lat == other.lat &&
+          lng == other.lng &&
+          domain == other.domain;
+
+  @override
+  int get hashCode => Object.hash(lat, lng, domain);
 }
 
 final availableTasksProvider =

@@ -41,6 +41,18 @@ class NearbyWorkersParams {
     this.radiusKm = 10,
     this.domain,
   });
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is NearbyWorkersParams &&
+          lat == other.lat &&
+          lng == other.lng &&
+          radiusKm == other.radiusKm &&
+          domain == other.domain;
+
+  @override
+  int get hashCode => Object.hash(lat, lng, radiusKm, domain);
 }
 
 final nearbyWorkersProvider =

@@ -83,6 +83,8 @@ class _RatingScreenState extends ConsumerState<RatingScreen> {
   @override
   Widget build(BuildContext context) {
     final role = ref.watch(authStateProvider).valueOrNull?.role ?? '';
+    // Watch so the task is loaded in cache before the user hits Submit
+    ref.watch(taskDetailProvider(widget.taskId));
     final ratingTarget =
         role == 'CUSTOMER' ? 'the Worker' : 'the Customer';
 

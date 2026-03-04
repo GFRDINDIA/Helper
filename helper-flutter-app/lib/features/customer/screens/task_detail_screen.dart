@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 import '../providers/customer_provider.dart';
 import '../data/customer_repository.dart';
 import '../data/models/task_models.dart';
+import '../../auth/providers/auth_provider.dart';
+import '../../worker/data/worker_repository.dart';
 import '../../../shared/theme/app_theme.dart';
 import '../../../shared/widgets/loading_overlay.dart';
 import '../../../core/constants/app_constants.dart';
@@ -21,10 +23,14 @@ class TaskDetailScreen extends ConsumerStatefulWidget {
 class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
   bool _isActing = false;
 
-  Future<void> _updateStatus(String status) async {
+  Future<void> _updateStatus(String status, {bool isWorker = false}) async {
     setState(() => _isActing = true);
     try {
-      await CustomerRepository().updateTaskStatus(widget.taskId, status);
+      if (isWorker) {
+        await WorkerRepository().updateTaskStatus(widget.taskId, status);
+      } else {
+        await CustomerRepository().updateTaskStatus(widget.taskId, status);
+      }
       ref.invalidate(taskDetailProvider(widget.taskId));
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
@@ -63,18 +69,19 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final taskAsync = ref.watch(taskDetailProvider(widget.taskId));
+    final role = ref.watch(authStateProvider).valueOrNull?.role ?? 'CUSTOMER';
 
     return Scaffold(
       appBar: AppBar(title: const Text('Task Details')),
       body: taskAsync.when(
-        data: (task) => _buildBody(task),
+        data: (task) => _buildBody(task, role),
         loading: () => const LoadingOverlay(),
         error: (e, _) => Center(child: Text('Error: $e')),
       ),
     );
   }
 
-  Widget _buildBody(Task task) {
+  Widget _buildBody(Task task, String role) {
     return RefreshIndicator(
       onRefresh: () =>
           ref.refresh(taskDetailProvider(widget.taskId).future),
@@ -117,11 +124,12 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
                     ? 'Fixed Price'
                     : 'Open Bidding'),
             const Divider(height: 32),
-            // Action buttons based on status
-            ..._buildActions(task),
+            // Role-aware action buttons
+            ..._buildActions(task, role),
             const SizedBox(height: 24),
-            // Bids section (for BIDDING tasks in OPEN status)
-            if (task.pricingModel == 'BIDDING' &&
+            // Bids section (for BIDDING tasks in OPEN/POSTED status — customer only)
+            if (role == 'CUSTOMER' &&
+                task.pricingModel == 'BIDDING' &&
                 ['OPEN', 'POSTED'].contains(task.status))
               _BidsList(taskId: task.id, onAccept: _acceptBid),
           ],
@@ -130,53 +138,74 @@ class _TaskDetailScreenState extends ConsumerState<TaskDetailScreen> {
     );
   }
 
-  List<Widget> _buildActions(Task task) {
+  List<Widget> _buildActions(Task task, String role) {
     final buttons = <Widget>[];
 
-    if (task.status == 'OPEN' && task.pricingModel == 'FIXED') {
-      buttons.add(_ActionButton(
-        label: 'Accept & Start',
-        icon: Icons.check_circle_outline,
-        color: Colors.green,
-        isLoading: _isActing,
-        onPressed: () => _updateStatus('ACCEPTED'),
-      ));
-    }
-
-    if (task.status == 'IN_PROGRESS') {
-      buttons.add(_ActionButton(
-        label: 'Mark Completed',
-        icon: Icons.task_alt_outlined,
-        color: Colors.blue,
-        isLoading: _isActing,
-        onPressed: () => _updateStatus('COMPLETED'),
-      ));
-    }
-
-    if (task.status == 'COMPLETED') {
-      buttons.add(ElevatedButton.icon(
-        onPressed: () => context.push('/payment/${task.id}'),
-        icon: const Icon(Icons.payment, color: Colors.white),
-        label: const Text('Pay Now',
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-        style: ElevatedButton.styleFrom(
-          backgroundColor: AppTheme.primary,
-          minimumSize: const Size(double.infinity, 48),
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        ),
-      ));
-    }
-
-    if (['OPEN', 'POSTED'].contains(task.status)) {
-      buttons.add(const SizedBox(height: 8));
-      buttons.add(_ActionButton(
-        label: 'Cancel Task',
-        icon: Icons.cancel_outlined,
-        color: Colors.red,
-        isLoading: _isActing,
-        onPressed: () => _updateStatus('CANCELLED'),
-      ));
+    if (role == 'WORKER') {
+      // ── Worker actions ──
+      if (task.status == 'ACCEPTED') {
+        buttons.add(_ActionButton(
+          label: 'Start Task',
+          icon: Icons.play_arrow_rounded,
+          color: Colors.green,
+          isLoading: _isActing,
+          onPressed: () => _updateStatus('IN_PROGRESS', isWorker: true),
+        ));
+      }
+      if (task.status == 'IN_PROGRESS') {
+        buttons.add(_ActionButton(
+          label: 'Mark Completed',
+          icon: Icons.task_alt_outlined,
+          color: Colors.blue,
+          isLoading: _isActing,
+          onPressed: () => _updateStatus('COMPLETED', isWorker: true),
+        ));
+      }
+    } else {
+      // ── Customer actions ──
+      if (task.status == 'OPEN' && task.pricingModel == 'FIXED') {
+        buttons.add(_ActionButton(
+          label: 'Accept & Start',
+          icon: Icons.check_circle_outline,
+          color: Colors.green,
+          isLoading: _isActing,
+          onPressed: () => _updateStatus('ACCEPTED'),
+        ));
+      }
+      if (task.status == 'IN_PROGRESS') {
+        buttons.add(_ActionButton(
+          label: 'Mark Completed',
+          icon: Icons.task_alt_outlined,
+          color: Colors.blue,
+          isLoading: _isActing,
+          onPressed: () => _updateStatus('COMPLETED'),
+        ));
+      }
+      if (task.status == 'COMPLETED') {
+        buttons.add(ElevatedButton.icon(
+          onPressed: () => context.push('/payment/${task.id}'),
+          icon: const Icon(Icons.payment, color: Colors.white),
+          label: const Text('Pay Now',
+              style: TextStyle(
+                  color: Colors.white, fontWeight: FontWeight.bold)),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: AppTheme.primary,
+            minimumSize: const Size(double.infinity, 48),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12)),
+          ),
+        ));
+      }
+      if (['OPEN', 'POSTED'].contains(task.status)) {
+        buttons.add(const SizedBox(height: 8));
+        buttons.add(_ActionButton(
+          label: 'Cancel Task',
+          icon: Icons.cancel_outlined,
+          color: Colors.red,
+          isLoading: _isActing,
+          onPressed: () => _updateStatus('CANCELLED'),
+        ));
+      }
     }
 
     return buttons;
@@ -319,6 +348,8 @@ class _StatusBadge extends StatelessWidget {
     switch (s) {
       case 'OPEN':
         return Colors.blue;
+      case 'ACCEPTED':
+        return Colors.teal;
       case 'IN_PROGRESS':
         return Colors.orange;
       case 'COMPLETED':
