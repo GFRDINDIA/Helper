@@ -1,0 +1,140 @@
+Helper Platform
+Domain & Task Structure
+Combined Document (V1 + V2)
+1. Furniture Assembly Domain
+Tasks related to assembling or disassembling furniture.
+Tasks:
+Furniture Assembly
+Patio Furniture Assembly
+Desk Assembly
+Dresser Assembly
+Bed Assembly
+Bookshelf Assembly
+Couch Assembly
+Chair Assembly
+Wardrobe Assembly
+Table Assembly
+Disassemble Furniture
+2. Mounting & Installation Domain
+Tasks related to installing items on walls, ceilings, or structures.
+Tasks:
+TV Mounting
+Wall Mounting
+Install Shelves, Rods & Hooks
+Ceiling Fan Installation
+Install Blinds & Window Treatments
+Hang Art, Mirror & Decor
+General Mounting
+Hang Christmas Lights
+Cabinet Installation
+3. Home Repair & Maintenance Domain
+Tasks related to repair, maintenance, and improvement.
+Tasks:
+Home Repairs
+Door, Cabinet & Furniture Repair
+Appliance Installation & Repairs
+Drywall Repair Service
+Flooring & Tiling Help
+Sealing & Caulking
+Window & Blinds Repair
+Painting
+Home Maintenance
+Fence Installation & Repair Services
+Deck Restoration Services
+4. Electrical Services Domain
+Tasks:
+Electrical Help
+Ceiling Fan Installation
+Light Installation
+Doorbell Installation
+Smart Home Installation
+Home Theater Installing
+5. Plumbing Services Domain
+Tasks:
+Plumbing
+6. Moving & Heavy Lifting Domain
+Tasks:
+Help Moving
+Truck Assisted Help Moving
+Packing Services & Help
+Unpacking Services
+Heavy Lifting
+Local Movers
+Junk Pickup
+Furniture Movers
+One Item Movers
+Storage Unit Moving
+Couch Removal
+Mattress Pick-Up & Removal
+Furniture Removal
+Pool Table Movers
+Appliance Removal
+Heavy Furniture Moving
+Rearranging Furniture
+Full Service Help Moving
+In-Home Furniture Movers
+7. Home Cleaning & Organization Domain
+Tasks:
+Home Cleaning
+Closet Organization Service
+8. Outdoor & Yard Work Domain
+Tasks:
+Yard Work Services
+Snow Removal
+9. Household Support Domain
+Tasks:
+Wait in Line
+Baby Proofing
+10. Smart Home & Technology Domain
+Tasks:
+Smart Home Installation
+TV Mounting
+Home Theater Installing
+Suggested Final Domain Structure
+Recommended main domains for the platform:
+Furniture Assembly
+Mounting & Installation
+Home Repair & Maintenance
+Electrical Services
+Plumbing Services
+Moving & Heavy Lifting
+Cleaning & Organization
+Outdoor & Yard Work
+Household Help
+Smart Home & Technology
+Example Database Domain Structure
+The following tree illustrates how domains and tasks are organized hierarchically:
+DOMAIN
+│
+├── Furniture Assembly
+│     ├── Bed Assembly
+│     ├── Desk Assembly
+│     └── Couch Assembly
+│
+├── Home Repair
+│     ├── Drywall Repair
+│     ├── Flooring
+│     └── Painting
+│
+├── Moving Services
+│     ├── Furniture Movers
+│     ├── Storage Moving
+│     └── Packing
+│
+└── Electrical
+      ├── Light Installation
+      ├── Doorbell Installation
+      └── Ceiling Fan Installation
+Platform Architecture Note
+These domains and tasks should be stored in a Task Domain Table. This allows administrators to add new tasks without changing application code.
+Example Table Structure:
+Domain
+Sub Task
+Furniture Assembly
+Bed Assembly
+Furniture Assembly
+Desk Assembly
+Moving
+Furniture Movers
+Repair
+Drywall Repair
