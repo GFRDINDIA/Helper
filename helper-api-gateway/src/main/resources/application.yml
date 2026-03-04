@@ -6,6 +6,10 @@ spring:
     name: helper-api-gateway
   profiles:
     active: dev
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.security.reactive.ReactiveSecurityAutoConfiguration
+      - org.springframework.boot.autoconfigure.security.reactive.ReactiveUserDetailsServiceAutoConfiguration
 
   cloud:
     gateway:
@@ -15,6 +19,9 @@ spring:
           args:
             maxSize: 10MB
         - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_FIRST
+        # Strip Origin before forwarding to backend services — CORS is handled by the
+        # gateway's globalcors, so backend services don't need to apply their own CORS.
+        - RemoveRequestHeader=Origin
 
       # ===== ROUTE DEFINITIONS =====
       # Routes are matched in order — first match wins.

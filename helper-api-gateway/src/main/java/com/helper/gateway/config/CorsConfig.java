@@ -22,7 +22,11 @@ import java.util.List;
 @Configuration
 public class CorsConfig {
 
-    @Bean
+    // CorsWebFilter bean intentionally removed — CORS is handled by
+    // spring.cloud.gateway.globalcors in application.yml. Having both
+    // active causes conflicting CORS processing (duplicate Vary headers
+    // + 403 "Invalid CORS request" on actual requests after preflight).
+    @SuppressWarnings("unused")
     public CorsWebFilter corsWebFilter() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
