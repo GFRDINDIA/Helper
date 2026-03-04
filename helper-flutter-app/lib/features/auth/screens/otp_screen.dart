@@ -104,11 +104,11 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
               width: 80,
               height: 80,
               decoration: BoxDecoration(
-                color: AppTheme.primary.withOpacity(0.1),
+                color: AppTheme.primary.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
               child:
-                  Icon(Icons.mark_email_unread, size: 40, color: AppTheme.primary),
+                  const Icon(Icons.mark_email_unread, size: 40, color: AppTheme.primary),
             ),
             const SizedBox(height: 24),
             const Text(
@@ -168,7 +168,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                           height: 16,
                           child: CircularProgressIndicator(strokeWidth: 2),
                         )
-                      : Text(
+                      : const Text(
                           'Resend OTP',
                           style: TextStyle(
                               color: AppTheme.primary,

@@ -23,8 +23,6 @@ class _CustomerHomeScreenState extends ConsumerState<CustomerHomeScreen>
   double? _lat;
   double? _lng;
 
-  final _filters = ['ALL', 'OPEN', 'IN_PROGRESS', 'COMPLETED', 'CANCELLED'];
-
   @override
   void initState() {
     super.initState();
@@ -171,7 +169,7 @@ class _MyTasksTab extends ConsumerWidget {
         Expanded(
           child: tasksAsync.when(
             data: (tasks) => tasks.isEmpty
-                ? _EmptyState(
+                ? const _EmptyState(
                     icon: Icons.assignment_outlined,
                     message: 'No tasks yet.\nTap + to post your first task.',
                   )
@@ -232,7 +230,7 @@ class _TaskCard extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
-                      color: statusColor.withOpacity(0.1),
+                      color: statusColor.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
@@ -264,7 +262,7 @@ class _TaskCard extends StatelessWidget {
                   const Spacer(),
                   Text(
                     task.displayBudget,
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: AppTheme.primary,
                         fontWeight: FontWeight.bold,
                         fontSize: 14),
@@ -327,7 +325,7 @@ class _NearbyWorkersTab extends ConsumerWidget {
 
     return workersAsync.when(
       data: (workers) => workers.isEmpty
-          ? _EmptyState(
+          ? const _EmptyState(
               icon: Icons.engineering_outlined,
               message: 'No workers found nearby.',
             )
@@ -366,12 +364,12 @@ class _WorkerCard extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 28,
-                backgroundColor: AppTheme.primary.withOpacity(0.1),
+                backgroundColor: AppTheme.primary.withValues(alpha: 0.1),
                 child: Text(
                   worker.fullName.isNotEmpty
                       ? worker.fullName[0].toUpperCase()
                       : '?',
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
                       color: AppTheme.primary),

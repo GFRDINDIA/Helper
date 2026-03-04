@@ -125,11 +125,11 @@ class _KycUploadScreenState extends State<KycUploadScreen> {
                 padding: const EdgeInsets.all(12),
                 margin: const EdgeInsets.only(bottom: 20),
                 decoration: BoxDecoration(
-                  color: _statusColor(_verificationStatus!).withOpacity(0.1),
+                  color: _statusColor(_verificationStatus!).withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(
                       color: _statusColor(_verificationStatus!)
-                          .withOpacity(0.3)),
+                          .withValues(alpha: 0.3)),
                 ),
                 child: Row(
                   children: [
@@ -283,7 +283,7 @@ class _ImagePicker extends StatelessWidget {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.check_circle,
+                            const Icon(Icons.check_circle,
                                 color: AppTheme.primary, size: 32),
                             const SizedBox(height: 4),
                             Text(image!.name,
@@ -293,13 +293,13 @@ class _ImagePicker extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Positioned(
+                  const Positioned(
                     top: 8,
                     right: 8,
                     child: CircleAvatar(
                       radius: 14,
                       backgroundColor: AppTheme.primary,
-                      child: const Icon(Icons.check,
+                      child: Icon(Icons.check,
                           color: Colors.white, size: 16),
                     ),
                   ),

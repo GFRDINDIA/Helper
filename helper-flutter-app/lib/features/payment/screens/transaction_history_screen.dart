@@ -100,7 +100,7 @@ class _TransactionCard extends StatelessWidget {
               children: [
                 Text(
                   '₹${payment.totalAmount.toStringAsFixed(2)}',
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       color: AppTheme.primary,
                       fontSize: 15),

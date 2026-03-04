@@ -54,7 +54,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(24),
               ),
-              child: Icon(
+              child: const Icon(
                 Icons.handyman_rounded,
                 size: 56,
                 color: AppTheme.primary,
@@ -74,7 +74,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
             Text(
               'Your trusted home services partner',
               style: TextStyle(
-                color: Colors.white.withOpacity(0.8),
+                color: Colors.white.withValues(alpha: 0.8),
                 fontSize: 14,
               ),
             ),

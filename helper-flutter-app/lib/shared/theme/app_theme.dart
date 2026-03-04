@@ -35,10 +35,10 @@ class AppTheme {
           style: ElevatedButton.styleFrom(
             backgroundColor: primary,
             foregroundColor: Colors.white,
-            shape: RoundedRectangleBorder(
+            shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(12)),
             ),
-            padding: EdgeInsets.symmetric(vertical: 14, horizontal: 24),
+            padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 24),
           ),
         ),
         cardTheme: const CardThemeData(

@@ -266,10 +266,10 @@ class _BidCard extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: 18,
-                  backgroundColor: AppTheme.primary.withOpacity(0.1),
+                  backgroundColor: AppTheme.primary.withValues(alpha: 0.1),
                   child: Text(
                     (bid.workerName ?? 'W')[0].toUpperCase(),
-                    style: TextStyle(color: AppTheme.primary),
+                    style: const TextStyle(color: AppTheme.primary),
                   ),
                 ),
                 const SizedBox(width: 8),
@@ -279,7 +279,7 @@ class _BidCard extends StatelessWidget {
                           const TextStyle(fontWeight: FontWeight.w600)),
                 ),
                 Text('₹${bid.proposedAmount.toStringAsFixed(0)}',
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: AppTheme.primary,
                         fontWeight: FontWeight.bold,
                         fontSize: 16)),
@@ -332,9 +332,9 @@ class _StatusBadge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: color.withOpacity(0.3)),
+        border: Border.all(color: color.withValues(alpha: 0.3)),
       ),
       child: Text(
         status.replaceAll('_', ' '),

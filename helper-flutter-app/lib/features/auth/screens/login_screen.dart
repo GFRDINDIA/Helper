@@ -166,7 +166,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         style: TextStyle(color: Colors.grey.shade600)),
                     GestureDetector(
                       onTap: () => context.go('/register'),
-                      child: Text(
+                      child: const Text(
                         'Register',
                         style: TextStyle(
                           color: AppTheme.primary,
@@ -195,7 +195,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: AppTheme.primary, width: 2),
+          borderSide: const BorderSide(color: AppTheme.primary, width: 2),
         ),
         filled: true,
         fillColor: Colors.grey.shade50,

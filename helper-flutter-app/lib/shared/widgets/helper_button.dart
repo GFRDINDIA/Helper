@@ -30,7 +30,7 @@ class HelperButton extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
-          disabledBackgroundColor: AppTheme.primary.withOpacity(0.6),
+          disabledBackgroundColor: AppTheme.primary.withValues(alpha: 0.6),
         ),
         child: isLoading
             ? const SizedBox(

@@ -99,10 +99,10 @@ class _RatingScreenState extends ConsumerState<RatingScreen> {
               width: 100,
               height: 100,
               decoration: BoxDecoration(
-                color: AppTheme.primary.withOpacity(0.1),
+                color: AppTheme.primary.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
-              child: Icon(
+              child: const Icon(
                 Icons.star_rounded,
                 size: 56,
                 color: AppTheme.primary,
@@ -146,7 +146,7 @@ class _RatingScreenState extends ConsumerState<RatingScreen> {
             const SizedBox(height: 12),
             Text(
               _scoreLabel(_score),
-              style: TextStyle(
+              style: const TextStyle(
                   color: AppTheme.primary,
                   fontWeight: FontWeight.bold,
                   fontSize: 16),
@@ -177,7 +177,7 @@ class _RatingScreenState extends ConsumerState<RatingScreen> {
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(color: AppTheme.primary, width: 2),
+                  borderSide: const BorderSide(color: AppTheme.primary, width: 2),
                 ),
                 filled: true,
                 fillColor: Colors.grey.shade50,

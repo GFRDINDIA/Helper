@@ -269,7 +269,7 @@ class _PostTaskScreenState extends ConsumerState<PostTaskScreen> {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: AppTheme.primary, width: 2),
+          borderSide: const BorderSide(color: AppTheme.primary, width: 2),
         ),
         filled: true,
         fillColor: Colors.grey.shade50,

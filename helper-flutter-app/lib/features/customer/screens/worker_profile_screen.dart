@@ -36,11 +36,11 @@ class WorkerProfileScreen extends ConsumerWidget {
                 children: [
                   CircleAvatar(
                     radius: 36,
-                    backgroundColor: AppTheme.primary.withOpacity(0.1),
+                    backgroundColor: AppTheme.primary.withValues(alpha: 0.1),
                     child: Text(
                       (profile['fullName'] as String? ?? 'W')[0]
                           .toUpperCase(),
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 28,
                           color: AppTheme.primary,
                           fontWeight: FontWeight.bold),

@@ -93,12 +93,12 @@ class _CustomerProfileScreenState
               Center(
                 child: CircleAvatar(
                   radius: 48,
-                  backgroundColor: AppTheme.primary.withOpacity(0.1),
+                  backgroundColor: AppTheme.primary.withValues(alpha: 0.1),
                   child: Text(
                     _nameCtrl.text.isNotEmpty
                         ? _nameCtrl.text[0].toUpperCase()
                         : 'U',
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontSize: 36,
                         color: AppTheme.primary,
                         fontWeight: FontWeight.bold),
@@ -166,7 +166,7 @@ class _CustomerProfileScreenState
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: AppTheme.primary, width: 2),
+          borderSide: const BorderSide(color: AppTheme.primary, width: 2),
         ),
         filled: true,
         fillColor: Colors.grey.shade50,

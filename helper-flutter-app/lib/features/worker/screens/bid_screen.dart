@@ -107,7 +107,7 @@ class _BidScreenState extends ConsumerState<BidScreen> {
                       const SizedBox(height: 4),
                       Text(
                         'Budget: ${task.displayBudget}',
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: AppTheme.primary,
                             fontWeight: FontWeight.w600),
                       ),
@@ -192,7 +192,7 @@ class _BidScreenState extends ConsumerState<BidScreen> {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: AppTheme.primary, width: 2),
+          borderSide: const BorderSide(color: AppTheme.primary, width: 2),
         ),
         filled: true,
         fillColor: Colors.grey.shade50,

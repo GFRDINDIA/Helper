@@ -3,7 +3,7 @@
 // For Flutter web (Chrome/Edge), use localhost directly
 import 'package:flutter/foundation.dart' show kIsWeb;
 
-final String kBaseUrl = kIsWeb ? 'http://localhost:8080' : 'http://10.0.2.2:8080';
+const String kBaseUrl = kIsWeb ? 'http://localhost:8080' : 'http://10.0.2.2:8080';
 
 class ApiEndpoints {
   // Auth
