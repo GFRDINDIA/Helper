@@ -79,10 +79,7 @@ class _CustomerHomeScreenState extends ConsumerState<CustomerHomeScreen>
           ),
           IconButton(
             icon: const Icon(Icons.logout),
-            onPressed: () async {
-              await ref.read(authStateProvider.notifier).logout();
-              if (context.mounted) context.go('/login');
-            },
+            onPressed: () => ref.read(authStateProvider.notifier).logout(),
           ),
         ],
         bottom: TabBar(

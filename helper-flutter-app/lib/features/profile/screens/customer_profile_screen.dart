@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../customer/data/customer_repository.dart';
+import '../../auth/providers/auth_provider.dart';
 import '../../../shared/theme/app_theme.dart';
 import '../../../shared/widgets/helper_button.dart';
 import '../../../core/network/api_exception.dart';
@@ -135,6 +136,23 @@ class _CustomerProfileScreenState
                   label: 'Save Changes',
                   isLoading: _isLoading,
                   onPressed: _save),
+              const SizedBox(height: 16),
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton.icon(
+                  onPressed: () =>
+                      ref.read(authStateProvider.notifier).logout(),
+                  icon: const Icon(Icons.logout, color: Colors.red),
+                  label: const Text('Logout',
+                      style: TextStyle(color: Colors.red)),
+                  style: OutlinedButton.styleFrom(
+                    side: const BorderSide(color: Colors.red),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12)),
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                  ),
+                ),
+              ),
             ],
           ),
         ),

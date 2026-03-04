@@ -106,10 +106,11 @@ class AuthNotifier extends AsyncNotifier<AuthState> {
   }
 
   Future<void> logout() async {
-    final repo = ref.read(authRepositoryProvider);
-    await repo.logout();
-    await SecureStorage.clearAll();
+    // Set state first so the router redirect fires immediately
     state = const AsyncData(AuthState(isLoggedIn: false));
+    await SecureStorage.clearAll();
+    // Best-effort server-side logout — don't block on it
+    ref.read(authRepositoryProvider).logout().ignore();
   }
 }
 
